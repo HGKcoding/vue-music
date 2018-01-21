@@ -6,9 +6,13 @@ import App from './App'
 import router from './router'
 import fastclick from 'fastclick'
 import axios from 'axios'
+import VueLazyLoad from 'vue-lazyload'
 import 'common/stylus/index.styl'
 
 fastclick.attach(document.body)// 解決移動端三百毫秒延遲
+Vue.use(VueLazyLoad, {
+  loading: require('common/image/default.png')
+})
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 

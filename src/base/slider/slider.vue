@@ -41,6 +41,10 @@ export default {
       type: Number,
       default: 0.3
     },
+    showDot: {
+      type: Boolean,
+      default: true
+    },
     click: {
       type: Boolean,
       default: true
@@ -53,6 +57,13 @@ export default {
       }
       clearTimeout(this.resizeTimer)
       this.resizeTimer = setTimeout(() => {
+        if (this.slider.isInTransiton) {
+          this._onScrollEnd()
+        } else {
+          if (this.autoPlay) {
+            this._play()
+          }
+        }
         this.refresh()
       }, 60)
     })
@@ -106,14 +117,26 @@ export default {
         click: this.click
       })
 
-      this.slider.on('scrollEnd', () => {
-        let pageIndex = this.slider.getCurrentPage().pageX
-        this.currentPageIndex = pageIndex
+      this.slider.on('scrollEnd', this._onScrollEnd)
 
+      this.slider.on('touchEnd', () => {
         if (this.autoPlay) {
           this._play()
         }
       })
+
+      this.slider.on('beforeScrollStart', () => {
+        if (this.autoPlay) {
+          clearTimeout(this.timer)
+        }
+      })
+    },
+    _onScrollEnd() {
+      let pageIndex = this.slider.getCurrentPage().pageX
+      this.currentPageIndex = pageIndex
+      if (this.autoPlay) {
+        this._play()
+      }
     },
     _initDots() {
       this.dots = [1, 1, 1, 1, 1]
@@ -124,6 +147,14 @@ export default {
         this.slider.next()
       }, this.interval)
     }
+  },
+  deactivated() {
+    this.slider.disable() // 禁用 better-scroll，DOM 事件（如 touchstart、touchmove、touchend）的回调函数不再响应。
+    clearTimeout(this.timer)
+  },
+  beforeDestory() {
+    this.slider.disable()
+    clearTimeout(this.timer)
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="m-header">
     <div class="icon"></div>
-    <h1 class="text">Deer Music</h1>
+    <h1 class="text">Funny Music</h1>
   </div>
 </template>
 
@@ -23,11 +23,11 @@ export default {}
       display: inline-block
       vertical-align: top
       margin-top: 6px
-      width: 30px
-      height: 32px
+      width: 31px
+      height: 30px
       margin-right: 9px
       bg-image('logo')
-      background-size: 30px 32px
+      background-size: 31px 30px
     .text
       display: inline-block
       vertical-align: top
