@@ -1,0 +1,1 @@
+export const singer = state => state.singer // 用 getters.js 去取到 state 中的数据

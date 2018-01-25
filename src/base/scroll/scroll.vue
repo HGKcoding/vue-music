@@ -20,6 +20,10 @@ export default {
     data: {
       type: Array,
       default: null
+    },
+    listenScroll: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
@@ -36,6 +40,13 @@ export default {
         probeType: this.probeType,
         click: this.click
       })
+      // console.log(this.scroll)
+      if (this.listenScroll) {
+        let me = this
+        this.scroll.on('scroll', (pos) => { // pos是滚动的实时坐标
+          me.$emit('scroll', pos)
+        })
+      }
     },
     enable() { // 代理 better-scroll 的一些方法
       this.scroll && this.scroll.enable()
@@ -45,6 +56,12 @@ export default {
     },
     refresh() {
       this.scroll && this.scroll.refresh()
+    },
+    scrollTo() {
+      this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+    },
+    scrollToElement() {
+      this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
     }
   },
   watch: {
